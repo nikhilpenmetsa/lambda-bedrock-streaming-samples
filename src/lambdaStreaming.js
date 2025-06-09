@@ -21,6 +21,7 @@ exports.handler = awslambda.streamifyResponse(
 
 		const params = {
 			modelId: 'anthropic.claude-v2',
+			//modelId: 'anthropic.claude-3-5-sonnet-20241022-v2:0',
 			contentType: 'application/json',
 			accept: '*/*',
 			body: `{"prompt":"${claudPrompt}","max_tokens_to_sample":2048,"temperature":0.5,"top_k":250,"top_p":0.5,"stop_sequences":[], "anthropic_version":"bedrock-2023-05-31"}`,

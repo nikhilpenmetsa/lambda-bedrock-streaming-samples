@@ -7,7 +7,7 @@ Resources:
     Properties:
       CodeUri: src/
       Handler: index.lambda_handler
-      Runtime: python3.9
+      Runtime: python3.13
       MemorySize: 128
       Timeout: 600
       Policies:
@@ -43,9 +43,89 @@ Resources:
             - Effect: Allow
               Action: 'bedrock:*'
               Resource: '*'
-  MyFunctionUrl:
+  StreamingFunctionUrl:
     Type: AWS::Lambda::Url
     Properties:
       TargetFunctionArn: !Ref NewStreamingFunction
       AuthType: AWS_IAM
       InvokeMode: RESPONSE_STREAM
+      Cors:
+        AllowCredentials: false
+        AllowHeaders:
+          - Content-Type
+          - X-Amz-Date
+          - Authorization
+          - X-Api-Key
+          - X-Amz-Security-Token
+        AllowMethods:
+          - GET
+          - POST
+        AllowOrigins:
+          - '*'
+
+  ConverseStreamingFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Handler: lambdaStreamingConverse.handler
+      Runtime: nodejs18.x
+      Timeout: 30
+      MemorySize: 256
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action: 'bedrock:*'
+              Resource: '*'
+  ConverseStreamingFunctionUrl:
+    Type: AWS::Lambda::Url
+    Properties:
+      TargetFunctionArn: !Ref ConverseStreamingFunction
+      AuthType: AWS_IAM
+      InvokeMode: RESPONSE_STREAM
+      Cors:
+        AllowCredentials: false
+        AllowHeaders:
+          - Content-Type
+          - X-Amz-Date
+          - Authorization
+          - X-Api-Key
+          - X-Amz-Security-Token
+        AllowMethods:
+          - GET
+          - POST
+        AllowOrigins:
+          - '*'
+          
+  RAGStreamingFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Handler: lambdaStreamRAG.handler
+      Runtime: nodejs18.x
+      Timeout: 30
+      MemorySize: 256
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action: 'bedrock:*'
+              Resource: '*'
+              
+  RAGStreamingFunctionUrl:
+    Type: AWS::Lambda::Url
+    Properties:
+      TargetFunctionArn: !Ref RAGStreamingFunction
+      AuthType: AWS_IAM
+      InvokeMode: RESPONSE_STREAM
+      Cors:
+        AllowCredentials: false
+        AllowHeaders:
+          - Content-Type
+          - X-Amz-Date
+          - Authorization
+          - X-Api-Key
+          - X-Amz-Security-Token
+        AllowMethods:
+          - GET
+          - POST
+        AllowOrigins:
+          - '*'

@@ -1,3 +1,5 @@
+Forked from https://github.com/mavi888/sam-bedrock-lambda
+
 # AWS Lambda that uses Amazon Bedrock
 
 _Infrastructure as code framework used_: AWS SAM
@@ -17,7 +19,7 @@ Important: this application uses various AWS services and there are costs associ
 
 - AWS CLI already configured with Administrator permission
 - AWS SAM CLI installed - minimum version 1.94.0 (sam --version)
-- Python 3.9 installed
+- Python 3.13 installed
 
 ## Deploy this demo
 

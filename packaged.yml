@@ -1,0 +1,57 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  GenerateVideoMetadataFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://nikhil-sam-package-test1/e0106a944aa0d372cb31301199f39b78
+      Handler: index.lambda_handler
+      Runtime: python3.13
+      MemorySize: 128
+      Timeout: 600
+      Policies:
+      - Statement:
+        - Effect: Allow
+          Action: bedrock:*
+          Resource: '*'
+    Metadata:
+      SamResourceId: GenerateVideoMetadataFunction
+  GenerateCatStoryJavascriptFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://nikhil-sam-package-test1/3b9d56d10149d9f44fe6f9e157f1f86b
+      Handler: lambdaJavascript.handler
+      Runtime: nodejs18.x
+      MemorySize: 128
+      Timeout: 600
+      Policies:
+      - Statement:
+        - Effect: Allow
+          Action: bedrock:*
+          Resource: '*'
+    Metadata:
+      SamResourceId: GenerateCatStoryJavascriptFunction
+  NewStreamingFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://nikhil-sam-package-test1/3b9d56d10149d9f44fe6f9e157f1f86b
+      Handler: lambdaStreaming.handler
+      Runtime: nodejs18.x
+      Timeout: 30
+      MemorySize: 256
+      Policies:
+      - Statement:
+        - Effect: Allow
+          Action: bedrock:*
+          Resource: '*'
+    Metadata:
+      SamResourceId: NewStreamingFunction
+  MyFunctionUrl:
+    Type: AWS::Lambda::Url
+    Properties:
+      TargetFunctionArn:
+        Ref: NewStreamingFunction
+      AuthType: AWS_IAM
+      InvokeMode: RESPONSE_STREAM
+    Metadata:
+      SamResourceId: MyFunctionUrl
